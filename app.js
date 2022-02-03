@@ -4,6 +4,9 @@ const connection = require("./db-config");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const assetsRoutes = require("./routes/assetsRoutes");
+const royalFamilyRoutes = require("./routes/royalFamilyRoutes");
+const userRoutes = require("./routes/userRoutes");
+const visitsRoutes = require("./routes/visitsRoutes");
 const port = process.env.PORT || 5005;
 
 app.use(cookieParser());
@@ -11,6 +14,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/assets", assetsRoutes);
+app.use("/api/family", royalFamilyRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/visits", visitsRoutes);
 
 connection.connect((err) => {
   if (err) {

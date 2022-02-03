@@ -1,9 +1,8 @@
-const res = require("express/lib/response");
 const assetsModel = require("../models/assetsModel");
 
 const getAssets = async (req, res) => {
   try {
-    const assets = await assetsModel.getAll();
+    const assets = await assetsModel.findMany();
 
     if (!assets.length) {
       res.status(404).json("There are no assets created");
@@ -18,7 +17,7 @@ const getAssets = async (req, res) => {
 const getAssetsById = async (req, res) => {
   const id = req.params.id;
   try {
-    const assetById = await assetsModel.getById(id);
+    const assetById = await assetsModel.findOne(id);
 
     if (!assetById.length) {
       res
@@ -48,7 +47,7 @@ const editAsset = async (req, res) => {
     const asset = await assetsModel.getById(id);
 
     if (!asset.length) {
-      res.status(404).json("There's no party with that ID");
+      res.status(404).json("There's no asset with that ID");
     } else {
       await assetsModel.update(propsToUpdate, id);
       res.status(201).json("Asset updated successfully");

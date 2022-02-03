@@ -1,7 +1,7 @@
 const connection = require("../db-config");
 const db = connection.promise();
 
-const getAll = async () => {
+const findMany = async () => {
   let sqlQuery = "SELECT * FROM assets";
 
   const assets = await db.query(sqlQuery).then(([result]) => result);
@@ -9,7 +9,7 @@ const getAll = async () => {
   return assets;
 };
 
-const getById = async (id) => {
+const findOne = async (id) => {
   let sqlQuery = "SELECT * FROM assets WHERE id = ?";
 
   const assetById = await db.query(sqlQuery, [id]).then(([result]) => result);
@@ -35,4 +35,4 @@ const deleteModel = async (id) => {
   await db.query(sqlQuery, [id]);
 };
 
-module.exports = { getAll, getById, create, update, deleteModel };
+module.exports = { findMany, findOne, create, update, deleteModel };
