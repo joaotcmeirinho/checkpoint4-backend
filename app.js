@@ -7,7 +7,9 @@ const assetsRoutes = require("./routes/assetsRoutes");
 const royalFamilyRoutes = require("./routes/royalFamilyRoutes");
 const userRoutes = require("./routes/userRoutes");
 const visitsRoutes = require("./routes/visitsRoutes");
+const emailRoutes = require("./routes/emailRoutes");
 const port = process.env.PORT || 5005;
+const { transporter } = require("./helpers/email");
 
 app.use(cookieParser());
 app.use(express.json());
@@ -17,6 +19,13 @@ app.use("/api/assets", assetsRoutes);
 app.use("/api/family", royalFamilyRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/visits", visitsRoutes);
+app.use("/api/email", emailRoutes);
+
+transporter.verify((err, success) => {
+  err
+    ? console.log(err)
+    : console.log(`=== Server is ready to take messages: ${success} ===`);
+});
 
 connection.connect((err) => {
   if (err) {

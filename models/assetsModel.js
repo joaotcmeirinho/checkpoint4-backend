@@ -35,4 +35,19 @@ const deleteModel = async (id) => {
   await db.query(sqlQuery, [id]);
 };
 
-module.exports = { findMany, findOne, create, update, deleteModel };
+const findCategories = async () => {
+  let sqlQuery = `SELECT COLUMN_NAME AS Categories FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '${process.env.DB_NAME}' AND TABLE_NAME = 'assets'`;
+
+  const categories = await db.query(sqlQuery).then(([result]) => result);
+
+  return categories;
+};
+
+module.exports = {
+  findMany,
+  findOne,
+  create,
+  update,
+  deleteModel,
+  findCategories,
+};

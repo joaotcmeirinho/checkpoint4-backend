@@ -61,16 +61,27 @@ const deleteAsset = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const asset = await assetsModel.getById(id);
+    const asset = await assetsModel.findOne(id);
 
     if (!asset.length) {
-      res.status(404).json("There's no party with that ID");
+      res.status(404).json("There's no asset with that ID");
     } else {
       await assetsModel.deleteModel(id);
       res.status(200).json("Asset deleted successfully");
     }
   } catch (err) {
     res.status(500).json("Error deleting asset. Please try again");
+    console.log(err);
+  }
+};
+
+const getCategories = async (req, res) => {
+  try {
+    const categories = await assetsModel.findCategories();
+
+    res.status(200).json(categories);
+  } catch (err) {
+    res.status(500).json("Error retrieving data. Please, try again");
   }
 };
 
@@ -80,4 +91,5 @@ module.exports = {
   createAsset,
   editAsset,
   deleteAsset,
+  getCategories,
 };
