@@ -1,4 +1,5 @@
 const visitsModel = require("../models/visitsModel");
+const { transporter } = require("../helpers/email");
 
 const getVisits = async (req, res) => {
   try {
@@ -14,15 +15,50 @@ const getVisits = async (req, res) => {
   }
 };
 
-const createVisit = async (req, res) => {
-  try {
-    await visitsModel.create({ ...req.body });
+const confirmVisitEmail = async (date, time, email) => {
+  let mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: "Your visit to Winterfell",
+    html: `<div className="email" style="
+    border: 1px solid black;
+    padding: 20px;
+    font-family: sans-serif;
+    line-height: 2;
+    font-size: 20px;">
+    <h2>Your visit to Winterfell</h2>
+    <p>Your visit is scheduled for ${date} at ${time}. We are excited to receive you in our beautiful kingdom.</p>
+    <p>Kind Regards</p>
+    </div>
+    `,
+  };
 
-    res.status(201).json("Visit scheduled successfully");
+  transporter.sendMail(mailOptions, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(data);
+    }
+  });
+};
+
+const createVisit = async (req, res) => {
+  let { date, time, email } = req.body;
+
+  console.log(req.body);
+  try {
+    await confirmVisitEmail(date, time, email);
+
+    await visitsModel.create({ ...req.body });
+    res
+      .status(201)
+      .json(
+        "Visit scheduled successfully. You will receive a confirmation in your email inbox. Thank you!"
+      );
   } catch (err) {
     res.status(500).json("Error scheduling visit. Please, try again");
     console.log(err);
   }
 };
 
-module.exports = { getVisits, createVisit };
+module.exports = { getVisits, confirmVisitEmail, createVisit };

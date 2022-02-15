@@ -44,7 +44,7 @@ const editAsset = async (req, res) => {
   const propsToUpdate = req.body;
   const id = req.params.id;
   try {
-    const asset = await assetsModel.getById(id);
+    const asset = await assetsModel.findOne(id);
 
     if (!asset.length) {
       res.status(404).json("There's no asset with that ID");
@@ -53,6 +53,7 @@ const editAsset = async (req, res) => {
       res.status(201).json("Asset updated successfully");
     }
   } catch (err) {
+    console.log(err);
     res.status(500).json("Error updating information. Please try again!");
   }
 };
