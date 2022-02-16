@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const assetsController = require("../controllers/assetsController");
+const { validateToken } = require("../middlewares/authMiddleware");
 
 router.get("/", assetsController.getAssets);
 
@@ -8,10 +9,10 @@ router.get("/categories", assetsController.getCategories);
 
 router.get("/:id", assetsController.getAssetsById);
 
-router.post("/", assetsController.createAsset);
+router.post("/", validateToken, assetsController.createAsset);
 
-router.put("/:id", assetsController.editAsset);
+router.put("/:id", validateToken, assetsController.editAsset);
 
-router.delete("/:id", assetsController.deleteAsset);
+router.delete("/:id", validateToken, assetsController.deleteAsset);
 
 module.exports = router;

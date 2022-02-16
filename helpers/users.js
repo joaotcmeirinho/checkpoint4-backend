@@ -1,13 +1,13 @@
-const Joi = require("joi");
+const jwt = require("jsonwebtoken");
 
-const validate = (data, forCreation = true) => {
-  const presence = forCreation ? "required" : "optional";
-  return Joi.object({
-    name: Joi.string().max(50).presence(presence),
-    email: Joi.string().email(30).max(255).presence(presence),
-    password: Joi.string().min(15).max(50).presence(presence),
-    role: Joi.string().max(10),
-  }).validate(data, { abortEarly: false }).error;
+const calculateJWTToken = (user, privateKey) => {
+  return jwt.sign({ id: user.id, name: user.name }, privateKey, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
 };
 
-module.exports = { validate };
+const decodeUserFromJWT = (token) => {
+  return jwt.decode(token);
+};
+
+module.exports = { calculateJWTToken, decodeUserFromJWT };

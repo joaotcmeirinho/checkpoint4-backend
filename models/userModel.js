@@ -12,7 +12,7 @@ const findMany = async () => {
 const findByEmail = async (email) => {
   let sqlQuery = "SELECT * FROM users WHERE email = ?";
 
-  const user = await db.query(sqlQuery, [email]);
+  const user = await db.query(sqlQuery, [email]).then(([result]) => result);
 
   return user;
 };
