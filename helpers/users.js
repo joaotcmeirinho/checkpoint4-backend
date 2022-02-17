@@ -6,8 +6,4 @@ const calculateJWTToken = (user, privateKey) => {
   });
 };
 
-const decodeUserFromJWT = (token) => {
-  return jwt.decode(token);
-};
-
-module.exports = { calculateJWTToken, decodeUserFromJWT };
+module.exports = { calculateJWTToken };

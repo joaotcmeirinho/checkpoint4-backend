@@ -1,5 +1,4 @@
 const { verify } = require("jsonwebtoken");
-const { decodeUserFromJWT } = require("../helpers/users");
 
 const validateToken = async (req, res, next) => {
   const token = req.headers.cookie;
@@ -12,12 +11,11 @@ const validateToken = async (req, res, next) => {
       if (!validToken) {
         res.status(401).json("Not authorized");
       } else {
-        req.user = validToken.name;
         next();
       }
     }
   } catch (err) {
-    console.log(err);
+    res.status(500).json(err);
   }
 };
 

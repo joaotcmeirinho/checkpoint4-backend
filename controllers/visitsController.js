@@ -45,7 +45,6 @@ const confirmVisitEmail = async (date, time, email) => {
 const createVisit = async (req, res) => {
   let { date, time, email } = req.body;
 
-  console.log(req.body);
   try {
     await confirmVisitEmail(date, time, email);
 
@@ -57,7 +56,6 @@ const createVisit = async (req, res) => {
       );
   } catch (err) {
     res.status(500).json("Error scheduling visit. Please, try again");
-    console.log(err);
   }
 };
 

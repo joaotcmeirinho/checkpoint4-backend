@@ -27,7 +27,7 @@ app.use("/api/family", royalFamilyRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/visits", visitsRoutes);
 app.use("/api/email", emailRoutes);
-app.use("/api/login", authRoutes);
+app.use("/api/admin", authRoutes);
 
 transporter.verify((err, success) => {
   err

@@ -2,10 +2,6 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const { calculateJWTToken } = require("../helpers/users");
 
-const loggedIn = (req, res) => {
-  res.json(req.user);
-};
-
 const login = async (req, res) => {
   let { email, password } = req.body;
 
@@ -26,9 +22,16 @@ const login = async (req, res) => {
     res.cookie("accessToken", accessToken, cookieOptions);
     res.json("Successfully logged in!");
   } catch (err) {
-    console.log(err);
     res.status(500).json("Error logging in. Please try again");
   }
 };
 
-module.exports = { loggedIn, login };
+const logout = async (req, res) => {
+  res.cookie("accessToken", "none", {
+    expires: new Date(Date.now() + 1 * 1000),
+    httpOnly: false,
+  });
+  res.status(200).json("Successfully logged out!");
+};
+
+module.exports = { login, logout };

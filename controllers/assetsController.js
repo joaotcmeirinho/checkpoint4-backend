@@ -53,7 +53,6 @@ const editAsset = async (req, res) => {
       res.status(201).json("Asset updated successfully");
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json("Error updating information. Please try again!");
   }
 };
@@ -72,7 +71,6 @@ const deleteAsset = async (req, res) => {
     }
   } catch (err) {
     res.status(500).json("Error deleting asset. Please try again");
-    console.log(err);
   }
 };
 
